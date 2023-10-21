@@ -16,17 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// routing untuk fitur post
-Route::get('/post', [PostController::class, 'tampil'])->name('post.tampil');
-Route::post('/post', [PostController::class, 'simpan'])->name('post.simpan');
+Route::middleware(['auth', 'verified'])->group(function(){
+    // routing untuk fitur post
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/post', [PostController::class, 'tampil'])->name('post.tampil');
+    Route::post('/post', [PostController::class, 'simpan'])->name('post.simpan');
+    Route::get('/post/{id}/edit', [PostController::class, 'edit'])->name('post.edit');
+});
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

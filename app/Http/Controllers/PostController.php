@@ -34,6 +34,12 @@ class PostController extends Controller
         return view('post.index', compact('data'));
     }
     // update data post
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+
+        return view('post.edit', compact('post'));
+    }
 
     // delete data post
 }
